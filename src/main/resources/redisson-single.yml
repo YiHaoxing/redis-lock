@@ -1,0 +1,33 @@
+#单机Redis Redisson配置
+singleServerConfig:
+  address: "redis://192.168.5.128:6379"
+  #redis连接密码
+  password: foobared123
+  clientName: null
+  #选择使用哪个数据库0~15
+  database: 0
+  #连接空闲超时 如果当前连接池里的连接数量超过了最小空闲连接数,而同时有连接空闲时间超过了该数值,那么这些连接将会自动被关闭,并从连接池里去掉
+  idleConnectionTimeout: 10000
+  pingTimeout: 1000
+  #连接超时
+  connectTimeout: 10000
+  #命令等待超时
+  timeout: 3000
+  #命令失败重试次数
+  retryAttempts: 3
+  #命令重试发送时间间隔
+  retryInterval: 1500
+  #重新连接时间间隔
+  reconnectionTimeout: 3000
+  failedAttempts: 3
+  subscriptionsPerConnection: 5
+  subscriptionConnectionMinimumIdleSize: 1
+  subscriptionConnectionPoolSize: 50
+  connectionMinimumIdleSize: 32
+  connectionPoolSize: 64
+  dnsMonitoringInterval: 5000
+  #dnsMonitoring: false
+threads: 0
+nettyThreads: 0
+codec: !<org.redisson.codec.JsonJacksonCodec> {}
+transportMode: "NIO"
