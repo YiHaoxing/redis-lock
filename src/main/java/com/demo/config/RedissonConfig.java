@@ -28,27 +28,10 @@ import java.io.IOException;
 public class RedissonConfig {
     @Bean
     public RedissonClient redisson() throws IOException {
-        //Config config = Config.fromYAML(new ClassPathResource("redisson-cluster.yml").getInputStream());
         Config config = Config.fromYAML(new ClassPathResource("redisson-single.yml").getInputStream());
         RedissonClient redissonClient = Redisson.create(config);
         return redissonClient;
     }
-
-    /*@Bean
-    public RedissonConnectionFactory redissonConnectionFactory(RedissonClient redissonClient) {
-        return new RedissonConnectionFactory(redissonClient);
-    }*/
-
-    /*@Bean("redisTemplate")
-    public RedisTemplate getRedisTemplate(RedisConnectionFactory redissonConnectionFactory) {
-        RedisTemplate<Object, Object> redisTemplate = new RedisTemplate();
-        redisTemplate.setConnectionFactory(redissonConnectionFactory);
-        redisTemplate.setValueSerializer(valueSerializer());
-        redisTemplate.setKeySerializer(keySerializer());
-        redisTemplate.setHashKeySerializer(keySerializer());
-        redisTemplate.setHashValueSerializer(valueSerializer());
-        return redisTemplate;
-    }*/
 
     @Bean
     public RedisSerializer keySerializer() {
