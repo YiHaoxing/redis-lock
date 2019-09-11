@@ -1,6 +1,6 @@
 #单机Redis Redisson配置
 singleServerConfig:
-  address: "redis://192.168.5.128:6379"
+  address: "redis://192.168.154.129:6379"
   #redis连接密码
   password: foobared123
   clientName: null

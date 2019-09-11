@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author YiHaoXing
  * @version 1.0.0
  * @className com.test.demo.controller.RedisLockController
- * @description 测试Redis锁.基于Lettuce
+ * @description
  * @date 2019/6/28 23:47
  */
 @RestController
@@ -39,22 +39,22 @@ public class RedisLockController {
         boolean lock = false;
         try {
             lock = redisLockUtils.getLockByLua(key, value, 30);
-            //lock = redisLockUtils.getLock(key, value, 30);
             if(lock){
-                log.info("获取锁成功,Thread:{}",Thread.currentThread().getId());
+                log.info("Thread:{}获取锁成功",Thread.currentThread().getId());
+                log.info("Thread:{}执行业务逻辑中...",Thread.currentThread().getId());
                 Thread.sleep(5000);
             } else {
-                log.info("获取锁失败,Thread:{}",Thread.currentThread().getId());
+                log.info("Thread:{}获取锁失败",Thread.currentThread().getId());
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
             if(lock){
                 redisLockUtils.releaseLockByLua(key, value);
-                log.info("释放锁,thread:{}",Thread.currentThread().getId());
+                log.info("Thread:{}释放锁",Thread.currentThread().getId());
             }
         }
-        return "thread1 over";
+        return "a1 over";
     }
     @GetMapping("/a2/{key}")
     public String test2(@PathVariable String key){
@@ -64,19 +64,50 @@ public class RedisLockController {
         try {
             lock = redisLockUtils.getLockByLua(key, value, 30);
             if(lock){
-                log.info("获取锁成功,Thread:{}",Thread.currentThread().getId());
+                log.info("Thread:{}获取锁成功",Thread.currentThread().getId());
+                log.info("Thread:{}执行业务逻辑中...",Thread.currentThread().getId());
                 Thread.sleep(5000);
             } else {
-                log.info("获取锁失败,Thread:{}",Thread.currentThread().getId());
+                log.info("Thread:{}获取锁失败",Thread.currentThread().getId());
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
             if(lock){
                 redisLockUtils.releaseLockByLua(key, value);
-                log.info("释放锁,thread:{}",Thread.currentThread().getId());
+                log.info("Thread:{}释放锁",Thread.currentThread().getId());
             }
         }
-        return "thread2 over";
+        return "a2 over";
+    }
+
+
+    public static final String LOCK_KEY = "T";
+    /**
+     * @author YiHaoXing
+     * @description 通过注解加锁
+     * @date 2019/9/5 0:47
+     * @param []
+     * @return java.lang.String
+     **/
+    @GetMapping("/a3")
+    @RedisLock(LOCK_KEY)
+    public String test3(){
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "a3 over";
+    }
+    @GetMapping("/a4")
+    @RedisLock(LOCK_KEY)
+    public String test4(){
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "a4 over";
     }
 }

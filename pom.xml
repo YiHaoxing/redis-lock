@@ -40,7 +40,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-        <!--暂时不用使用SpringBoot起步依赖的方式集成Redisson.会导致LettuceConnectionFactory注入失败-->
+        <!--暂时不使用SpringBoot起步依赖的方式集成Redisson.会导致LettuceConnectionFactory注入失败-->
         <!--<dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson-spring-boot-starter</artifactId>

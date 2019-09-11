@@ -39,20 +39,20 @@ public class RedisLockAspect {
 
         //锁的key
         String key = annotation.value();
+        //等待时间
+        int waitTime = annotation.waitTime();
         //过期时间
         int expireTime = annotation.expireTime();
-        //key对应的value.设置成这样可以避免释放掉其他线程加的锁.
-        String value = new StringBuilder().append(Thread.currentThread().getId()).append(Math.random()).toString();
 
         boolean lock = false;
         try {
             //获取锁
-            lock = redisLockUtils.getReentrantLock(key, 5, 30, TimeUnit.SECONDS);
+            lock = redisLockUtils.getReentrantLock(key, waitTime, expireTime, TimeUnit.SECONDS);
             if (lock) {
-                log.info("获取锁成功,Thread:{}",Thread.currentThread().getId());
+                log.info("Thread:{}获取锁成功",Thread.currentThread().getId());
                 return proceedingJoinPoint.proceed();
             } else {
-                log.info("获取锁失败,Thread:{}",Thread.currentThread().getId());
+                log.info("Thread:{}获取锁失败",Thread.currentThread().getId());
             }
         } catch (Throwable throwable) {
             throw throwable;
@@ -60,7 +60,7 @@ public class RedisLockAspect {
             //释放锁
             if(lock){
                 redisLockUtils.unlock(key);
-                log.info("释放锁,thread:{}",Thread.currentThread().getId());
+                log.info("Thread:{}释放锁",Thread.currentThread().getId());
             }
         }
         return null;

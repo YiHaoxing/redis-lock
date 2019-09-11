@@ -28,7 +28,10 @@ import java.io.IOException;
 public class RedissonConfig {
     @Bean
     public RedissonClient redisson() throws IOException {
+        //单机Redis
         Config config = Config.fromYAML(new ClassPathResource("redisson-single.yml").getInputStream());
+        //集群Redis
+        //Config config = Config.fromYAML(new ClassPathResource("redisson-cluster.yml").getInputStream());
         RedissonClient redissonClient = Redisson.create(config);
         return redissonClient;
     }

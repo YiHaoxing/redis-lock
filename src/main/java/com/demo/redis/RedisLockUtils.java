@@ -112,8 +112,8 @@ public class RedisLockUtils {
      **/
     public void getLock(String lockKey,int expireTime, TimeUnit timeUnit){
         RLock lock = redissonClient.getLock(lockKey);
-        //拿不到锁线程会一直阻塞.直到拿到锁
         log.info("Thread:{}正在获取锁...",Thread.currentThread().getId());
+        //拿不到锁线程会一直阻塞.直到拿到锁
         lock.lock(expireTime,timeUnit);
     }
 
@@ -126,6 +126,8 @@ public class RedisLockUtils {
      **/
     public boolean getReentrantLock(String lockKey, int waitTime, int expireTime, TimeUnit timeUnit) throws InterruptedException {
         RLock lock = redissonClient.getLock(lockKey);
+        log.info("Thread:{}正在获取锁...",Thread.currentThread().getId());
+        //拿不到锁会等待waitTime,如果过了waitTime依然没有拿到锁,则获取锁失败.
         return lock.tryLock(waitTime, expireTime, timeUnit);
     }
 

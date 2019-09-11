@@ -14,8 +14,12 @@ public @interface RedisLock {
     /**
      * 锁的过期时间.以秒为单位
      */
-    int expireTime() default 60;
+    int expireTime() default 30;
 
+    /**
+     * 未获取到锁后等待重试时间.以秒为单位
+     */
+    int waitTime() default 3;
     /**
      * redis的key
      * @return
